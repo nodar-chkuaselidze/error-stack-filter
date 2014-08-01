@@ -1,0 +1,30 @@
+{
+  "name": "error-stack-filter",
+  "version": "0.0.0",
+  "description": "Error stack filter",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "istanbul": "^0.3.0",
+    "mocha": "^1.21.3",
+    "should": "^4.0.4"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodar-chkuaselidze/error-stack-filter.git"
+  },
+  "keywords": [
+    "error",
+    "stack",
+    "filter"
+  ],
+  "author": "Nodari Chkuaselidze",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nodar-chkuaselidze/error-stack-filter/issues"
+  },
+  "homepage": "https://github.com/nodar-chkuaselidze/error-stack-filter"
+}
