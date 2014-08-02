@@ -46,6 +46,11 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.should.have.property('ROOT', currentPath);
     });
 
+    it('should have non-writable ROOT', function () {
+      errorStackFilterInstance.ROOT = 123;
+      errorStackFilterInstance.ROOT.should.equal(currentPath);
+    });
+
     it('should have property IGNORE_FILES typeof Array with length 1 containing currentPath/some.js', function () {
       errorStackFilterInstance.should.have.property('IGNORE_FILES');
       errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
@@ -58,9 +63,5 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.IGNORE_FILES[0].should.not.equal(123);
     });
 
-    it('should have non-writable ROOT', function () {
-      errorStackFilterInstance.ROOT = 123;
-      errorStackFilterInstance.ROOT.should.equal(currentPath);
-    });
   });
 });
