@@ -41,7 +41,7 @@ describe('Error Stack Filter', function () {
     it('should have current path ending with test (dir name)', function () {
       currentPath.substr(-4).should.equal('test');
     });
-    
+
     it('should have property ROOT and it should be currentPath', function () {
       errorStackFilterInstance.should.have.property('ROOT', currentPath);
     });
