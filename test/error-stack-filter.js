@@ -57,5 +57,10 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.IGNORE_FILES[0] = 123;
       errorStackFilterInstance.IGNORE_FILES[0].should.not.equal(123);
     });
+
+    it('should have non-writable ROOT', function () {
+      errorStackFilterInstance.ROOT = 123;
+      errorStackFilterInstance.ROOT.should.equal(currentPath);
+    });
   });
 });
