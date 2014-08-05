@@ -63,5 +63,12 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.IGNORE_FILES[0].should.not.equal(123);
     });
 
+    it('should return stack trace', function () {
+      try {
+        throw new Error('error');
+      } catch(e) {
+        e.stack.length.should.not.equal(0);
+      }
+    });
   });
 });
