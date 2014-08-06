@@ -36,7 +36,11 @@ describe('Error Stack Filter', function () {
 
   describe('Instance with ignoring some.js file', function () {
     var currentPath = path.resolve(__dirname),
-        errorStackFilterInstance = new ErrorStackFilter(currentPath, [ './some.js' ]);
+        errorStackFilterInstance;
+
+    before(function () {
+      errorStackFilterInstance = new ErrorStackFilter(currentPath, [ 'timers.js', /\/node_modules\// ]);
+    });
 
     it('should have current path ending with test (dir name)', function () {
       currentPath.substr(-4).should.equal('test');
@@ -51,11 +55,11 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.ROOT.should.equal(currentPath);
     });
 
-    it('should have property IGNORE_FILES typeof Array with length 1 containing currentPath/some.js', function () {
+    it('should have property IGNORE_FILES typeof Array with length 2 containing timers.js and node_modules regexp', function () {
       errorStackFilterInstance.should.have.property('IGNORE_FILES');
       errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
-      errorStackFilterInstance.IGNORE_FILES.length.should.equal(1);
-      errorStackFilterInstance.IGNORE_FILES[0].should.equal(currentPath + '/some.js');
+      errorStackFilterInstance.IGNORE_FILES.length.should.equal(2);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('timers.js');
     });
 
     it('should have non-writable IGNORE_FILES', function () {
@@ -63,11 +67,12 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.IGNORE_FILES[0].should.not.equal(123);
     });
 
-    it('should return stack trace', function () {
+    it('should return filtered stack trace', function () {
       try {
         throw new Error('error');
       } catch(e) {
         e.stack.length.should.not.equal(0);
+        e.stack.split('\n').length.should.equal(3);
       }
     });
   });
