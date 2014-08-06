@@ -21,5 +21,5 @@ ErrorStackFilter ([ignoreFiles, [stackLimit ]])
 
 Example
 -
-`new ErrorStackFilter([path.resolve(__dirname, '/some_file.js'), /\/node_modules\//], 10);`
+`var errorStackFilter = require('error-stack-filter')([path.resolve(__dirname, '/some_file.js'), /\/node_modules\//], 10);`
 this will filter paths where node_modules exist and file `__dirname/some_file.js`
