@@ -17,7 +17,7 @@ ErrorStackFilter ([ignoreFiles, [stackLimit ]])
 
 + setIgnoreFiles (Array ignoreFiles)
 + addIgnoreFiles (Array ignoreFiles) or addIgnoreFiles (ignoreFiles...)
-+ removeIgnoreFiles (Array ignoreFiles) or removeIgnoreFiles (ignoreFiles)
++ removeIgnoreFiles (Array ignoreFiles) or removeIgnoreFiles (ignoreFiles...)
 
 Example
 -
