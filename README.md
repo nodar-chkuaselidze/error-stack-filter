@@ -8,17 +8,16 @@ Usage
 =====
 
 * `npm install error-stack-filter`
-* `var ErrorStackFilter = require('error-stack-filter');`
-* create new instance: `new ErrorStackFilter([], 20)`
+* `var errorStackFilter = require('error-stack-filter');`
+* returns singleton instance: `ErrorStackFilter([], 20);`
 
 
-class ErrorStackFilter
+ErrorStackFilter ([ignoreFiles, [stackLimit ]])
 --
 
-+ constructor (IGNORE_FILES, STACK_LIMIT);
-
-where IGNORE_FILES must contain strings or RegExps.
-Strings are matched from zero index and for RegExps, test should be true.
+### setIgnoreFiles (Array ignoreFiles)
+### addIgnoreFiles (Array ignoreFiles) or addIgnoreFiles (ignoreFiles...)
+### removeIgnoreFiles (Array ignoreFiles) or removeIgnoreFiles (ignoreFiles)
 
 Example
 -

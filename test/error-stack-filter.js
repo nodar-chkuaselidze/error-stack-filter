@@ -1,58 +1,70 @@
-var ErrorStackFilter = require('../'),
+var errorStackFilter = require('../'),
+    errorStackFilterInstance = errorStackFilter(),
     path   = require('path'),
-    should = require('should');
+    should = require('should')
 
 describe('Error Stack Filter', function () {
-
-  it('Should throw error if no arguments or not IGNORE_FILES', function () {
-    [{
-      args  : [],
-      error : 'ROOT not found'
-    }, {
-      args  : [ '.' ],
-      error : 'IGNORE FILES not found'
-    }].forEach(function (testCase) {
-      var errorStackFilterInstance, success = false;
-
-      function wrapErrorStackFilter() {
-        ErrorStackFilter.apply(this, testCase.args);
-      }
-
-      try {
-        errorStackFilterInstance = new wrapErrorStackFilter();
-        success = true;
-      } catch (e) {
-        e.should.be.an.instanceOf(Error);
-        e.message.should.equal(testCase.error);
-      } finally {
-        success.should.equal(!testCase.error);
-      }
+  describe('Instance API', function () {
+    it('should set IGNORE_FILES with setIgnoreFiles method', function () {
+      errorStackFilterInstance.setIgnoreFiles([ 'hello', 'world' ]);
+      errorStackFilterInstance.should.have.property('IGNORE_FILES');
+      errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('hello');
+      errorStackFilterInstance.IGNORE_FILES[1].should.equal('world');
     });
-  });
 
-  it('Should not throw error if IGNORE_FILES is empty and directory is current', function () {
-    var errorStackFilterInstance = new ErrorStackFilter(__dirname, []);
+    it('should add IGNORE_FILES with addIgnoreFiles method', function () {
+      errorStackFilterInstance.setIgnoreFiles([]);
+      errorStackFilterInstance.addIgnoreFiles('hello', 'world');
+      errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('hello');
+      errorStackFilterInstance.IGNORE_FILES[1].should.equal('world');
+    });
+
+    it('should add to IGNORE_FILES with array as a first argument passed to addIgnoreFiles method', function () {
+      errorStackFilterInstance.setIgnoreFiles([]);
+      errorStackFilterInstance.addIgnoreFiles(['hello', 'world']);
+      errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('hello');
+      errorStackFilterInstance.IGNORE_FILES[1].should.equal('world');
+    });
+
+    it('should remove from IGNORE_FILES with removeIgnoreFiles method', function () {
+      errorStackFilterInstance.setIgnoreFiles(['hello', 'world', 'its', 'nodejs']);
+      errorStackFilterInstance.removeIgnoreFiles('its', 'nodejs');
+      errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('hello');
+      errorStackFilterInstance.IGNORE_FILES[1].should.equal('world');
+    });
+
+    it('should remove from IGNORE_FILES with array as first argument passed to removeIgnoreFiles method', function () {
+      errorStackFilterInstance.setIgnoreFiles(['hello', 'world', 'its', 'nodejs']);
+      errorStackFilterInstance.removeIgnoreFiles(['its', 'nodejs']);
+      errorStackFilterInstance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      errorStackFilterInstance.IGNORE_FILES[0].should.equal('hello');
+      errorStackFilterInstance.IGNORE_FILES[1].should.equal('world');
+    });
+
+    it('should set limit with setLimit method', function () {
+      errorStackFilterInstance.setLimit(15);
+      errorStackFilterInstance.STACK_LIMIT.should.equal(15);
+
+      errorStackFilterInstance.setLimit('20');
+      errorStackFilterInstance.STACK_LIMIT.should.equal(20);
+    });
+
+    it('should return same instance if called twice', function () {
+      var instance = errorStackFilter();
+      instance.STACK_LIMIT.should.equal(20);
+      instance.IGNORE_FILES.should.be.an.instanceOf(Array);
+      instance.IGNORE_FILES[0].should.equal('hello');
+      instance.IGNORE_FILES[1].should.equal('world');
+    });
   });
 
   describe('Instance with ignoring some.js file', function () {
-    var currentPath = path.resolve(__dirname),
-        errorStackFilterInstance;
-
     before(function () {
-      errorStackFilterInstance = new ErrorStackFilter(currentPath, [ 'timers.js', /\/node_modules\// ]);
-    });
-
-    it('should have current path ending with test (dir name)', function () {
-      currentPath.substr(-4).should.equal('test');
-    });
-
-    it('should have property ROOT and it should be currentPath', function () {
-      errorStackFilterInstance.should.have.property('ROOT', currentPath);
-    });
-
-    it('should have non-writable ROOT', function () {
-      errorStackFilterInstance.ROOT = 123;
-      errorStackFilterInstance.ROOT.should.equal(currentPath);
+      errorStackFilter([ 'timers.js', /\/node_modules\// ]);
     });
 
     it('should have property IGNORE_FILES typeof Array with length 2 containing timers.js and node_modules regexp', function () {
