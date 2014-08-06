@@ -67,7 +67,7 @@ describe('Error Stack Filter', function () {
       errorStackFilterInstance.IGNORE_FILES[0].should.not.equal(123);
     });
 
-    it('should return filtered stack trace', function () {
+    it('should return filtered stack trace(without mocha files)', function () {
       try {
         throw new Error('error');
       } catch(e) {
