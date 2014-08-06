@@ -21,13 +21,6 @@ ErrorStackFilter ([ignoreFiles, [stackLimit ]])
 
 Example
 -
-Error Stack Filter
-==================
-
-Filter Stack Traces from not useful files, like remove all `node_modules` files from trace
-
-Example
--
 ```
   var errorStackFilter = require('error-stack-filter')();
   errorStackFilter.setIgnoreFiles([
